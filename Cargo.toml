@@ -3,6 +3,7 @@ name = "rbtc"
 version = "0.1.0"
 authors = ["Luca Lacerda <lucalacerda1@gmail.com>"]
 edition = "2018"
+repository = "https://github.com/lucawen/rbtc"
 
 [dependencies]
 reqwest = "0.9.12"

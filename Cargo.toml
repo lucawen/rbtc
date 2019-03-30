@@ -4,6 +4,8 @@ version = "0.1.0"
 authors = ["Luca Lacerda <lucalacerda1@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/lucawen/rbtc"
+license = "MIT"
+description = "Convert amount from BTC to USD or any other currency and virse-versa"
 
 [dependencies]
 reqwest = "0.9.12"

@@ -4,7 +4,7 @@ use reqwest;
 
 const API_URL: &'static str = "https://apiv2.bitcoinaverage.com/convert/global";
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 struct BtcResponse {
     time: String,
     success: bool,
@@ -29,42 +29,26 @@ fn main() {
         ]);
     let response_result = request.send();
 
-    let btc_response: BtcResponse = match response_result {
+    let btc_response = match response_result {
         Err(e) => {
             eprintln!("Error ocurred in request conversion: {}", e);
             exit(1);
         },
-        Ok(response) => {
-            match response.json() {
+        Ok(mut response) => {
+            match response.json::<BtcResponse>() {
                 Err(e) => {
                     eprintln!("Error ocurred in json conversion: {}", e);
                     exit(1);
             },
                 Ok(json) => json,
-            };
+            }
         },
+    };
+    if !btc_response.success {
+        eprintln!("Error ocurred in conversion");
+        exit(1);
     }
-
-    // let json = match response {
-    //     Ok(value) => {
-    //         match &mut value.json() {
-    //             Ok(value2) => {
-    //                 let as_json: BtcResponse = value2;
-    //                 as_json
-    //                 },
-    //             Err(e_json) => {
-    //                 eprintln!("Error ocurred in json conversion: {}", e_json);
-    //                 exit(1);
-    //             }
-    //         };
-    //     },
-    //     Err(e) => {
-    //         eprintln!("Error ocurred in request conversion: {}", e);
-    //         exit(1);
-    //     }
-    // };
-    println!("{:#?}", json);
-    println!("You want to know how mutch btc {} worth in USD", amount);
+    println!("The conversion of {} BTC to {} is {}", amount, currency, btc_response.price);
 }
 
 #[test]

@@ -30,8 +30,6 @@ cargo install rbtc
 The documentation, for now, is the help return of tool:
 
 ```sh
-rbtc 0.1.1
-Luca Lacerda <lucalacerda1@gmail.com>
 Get value of a btc value to a currency
 
 USAGE:
@@ -39,8 +37,9 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
-    -s, --silent     Verbose information not will displayed
+    -s, --silent     Silent information abount currency result
     -V, --version    Prints version information
+    -v, --verbose    Verbose errors
 
 OPTIONS:
     -f, --from <from>    Set the initial currency of [default: BTC]

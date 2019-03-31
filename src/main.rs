@@ -5,13 +5,6 @@ use structopt::StructOpt;
 
 const API_URL: &'static str = "https://apiv2.bitcoinaverage.com/convert/global";
 
-#[derive(Deserialize, Debug)]
-struct BtcResponse {
-    time: String,
-    success: bool,
-    price: f64
-}
-
 #[derive(Debug, StructOpt)]
 #[structopt(name = "rbtc", about = "Get value of a btc value to a currency")]
 struct Opt {
@@ -23,45 +16,53 @@ struct Opt {
     /// Set the final currency to convert
     #[structopt(short = "t", long = "to",  default_value = "USD")]
     to: String,
-    /// Verbose information not will displayed
+    /// Silent information abount currency result
     #[structopt(short = "s", long = "silent")]
     silent: bool,
+    /// Verbose errors
+    #[structopt(short = "v", long = "verbose")]
+    verbose: bool,
+}
+
+#[derive(Deserialize, Debug)]
+struct BtcResponse {
+    time: String,
+    success: bool,
+    price: f64
+}
+
+fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, reqwest::Error> {
+    let client  = reqwest::Client::new();
+    let request = client.get(API_URL)
+        .query(&[
+            ("from", from),
+            ("to", to), 
+            ("amount", &amount.to_string()),  
+        ]);
+    let response_result: BtcResponse = request.send()?.json()?;
+
+    // TODO: raise a error if not success in struct object
+
+    Ok(response_result)
 }
 
 fn main() {
     let opt = Opt::from_args();
-    let client  = reqwest::Client::new();
-    let options_req = [
-        ("from", &opt.from),
-        ("to", &opt.to), 
-        ("amount", &opt.amount.to_string()),  
-    ];
-    let request = client.get(API_URL)
-        .query(&options_req);
-    let response_result = request.send();
 
-    let btc_response = match response_result {
+    let response = match convert_btc(&opt.amount, &opt.from, &opt.to) {
+        Ok(value)  => value,
         Err(e) => {
-            eprintln!("Error ocurred in request conversion: {}", e);
+            println!("A error ocurred when try to get value from api");
+            if opt.verbose {
+                println!("Message: {} - Details: {:?}", e, e);
+            }
             exit(1);
         },
-        Ok(mut response) => {
-            match response.json::<BtcResponse>() {
-                Err(e) => {
-                    eprintln!("Error ocurred in json conversion: {}", e);
-                    exit(1);
-            },
-                Ok(json) => json,
-            }
-        },
     };
-    if !btc_response.success {
-        eprintln!("Error ocurred in conversion");
-        exit(1);
-    }
+    
     if opt.silent {
-        println!("{}", btc_response.price);
+        println!("{}", response.price);
     } else {
-        println!("{} {}", btc_response.price, &opt.to); 
+        println!("{} {}", response.price, &opt.to); 
     }
 }

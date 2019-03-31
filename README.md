@@ -5,7 +5,7 @@
 RBTC is cli to convert BTC to any currency and vice-versa.
 
 <p align="center">
-  <img width="600" src="https://cdn.jsdelivr.net/gh/lucawen/rbtc/example.svg">
+  <img width="600" src="https://cdn.jsdelivr.net/gh/lucawen/rbtc/example.gif">
 </p>
 
 

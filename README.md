@@ -1,7 +1,6 @@
 # RBTC
 
 [![Build Status](https://travis-ci.com/lucawen/rbtc.svg?branch=master)](https://travis-ci.com/lucawen/rbtc)
-
 RBTC is cli to convert BTC to any currency and vice-versa.
 
 [![asciicast](https://asciinema.org/a/lYSpDjAFgPsXW5lNOvaPuKY77.svg)](https://asciinema.org/a/lYSpDjAFgPsXW5lNOvaPuKY77)

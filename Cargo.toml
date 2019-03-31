@@ -9,6 +9,7 @@ license = "MIT"
 description = "Convert amount from BTC to USD or any other currency and virse-versa"
 keywords = ["cli", "btc", "bitcoin", "currency"]
 categories = ["command-line-utilities"]
+readme = "README.md"
 
 [dependencies]
 reqwest = "0.9.12"

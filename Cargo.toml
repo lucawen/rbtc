@@ -1,6 +1,6 @@
 [package]
 name = "rbtc"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Luca Lacerda <lucalacerda1@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/lucawen/rbtc"
@@ -17,3 +17,4 @@ serde_derive = "1.0.89"
 serde = "1.0.89"
 serde_json = "1.0.39"
 structopt = "0.2.15"
+derive_more = "0.14.0"

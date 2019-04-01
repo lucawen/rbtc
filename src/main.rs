@@ -1,7 +1,14 @@
 #[macro_use] extern crate serde_derive;
+#[macro_use] extern crate derive_more;
 use std::process::exit;
 use reqwest;
 use structopt::StructOpt;
+
+#[derive(From, Display, Debug)]
+enum RbtcError {
+    ApiError,
+    Reqwest(reqwest::Error)
+}
 
 const API_URL: &'static str = "https://apiv2.bitcoinaverage.com/convert/global";
 
@@ -31,7 +38,8 @@ struct BtcResponse {
     price: f64
 }
 
-fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, reqwest::Error> {
+fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, RbtcError> {
+    use RbtcError::*;
     let client  = reqwest::Client::new();
     let request = client.get(API_URL)
         .query(&[
@@ -41,7 +49,9 @@ fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, 
         ]);
     let response_result: BtcResponse = request.send()?.json()?;
 
-    // TODO: raise a error if not success in struct object
+    if !response_result.success {
+        return Err(ApiError);
+    }
 
     Ok(response_result)
 }
@@ -64,5 +74,34 @@ fn main() {
         println!("{}", response.price);
     } else {
         println!("{} {}", response.price, &opt.to); 
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_convert_sucess() {
+        match convert_btc(&1.2, &String::from("BTC"), &String::from("USD")) {
+            Ok(_) => assert!(true),
+            Err(_) => assert!(false),
+        }
+    }
+
+    #[test]
+    fn test_convert_error_wrong_from() {
+        match convert_btc(&1.2, &String::from("wrongvalue"), &String::from("USD")) {
+            Ok(_) => assert!(false),
+            Err(_) => assert!(true),
+        }
+    }
+
+    #[test]
+    fn test_convert_error_wrong_to() {
+        match convert_btc(&1.2, &String::from("wrongvalue"), &String::from("USD")) {
+            Ok(_) => assert!(false),
+            Err(_) => assert!(true),
+        }
     }
 }

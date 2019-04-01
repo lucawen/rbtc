@@ -13,9 +13,6 @@ matrix:
 services:
   - docker
 
-script:
-- make test-docker-env
-
 cache:
     apt: true
     directories:

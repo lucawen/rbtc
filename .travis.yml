@@ -1,9 +1,37 @@
+sudo: required
 language: rust
+
 rust:
   - stable
   - beta
   - nightly
+
 matrix:
   allow_failures:
     - rust: nightly
-  fast_finish: true
+
+services:
+  - docker
+
+script:
+- make test-docker-env
+
+cache:
+    apt: true
+    directories:
+        - target/debug/deps
+        - target/debug/build
+
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+
+after_success: |
+    [ $TRAVIS_RUST_VERSION = stable ] &&
+    wget https://github.com/shaneutt/kcov/archive/master.tar.gz &&
+    tar xzf master.tar.gz && mkdir kcov-master/build && cd kcov-master/build && cmake .. && make && make install DESTDIR=../tmp && cd ../.. &&
+    ls target/debug &&
+    ./kcov-master/tmp/usr/local/bin/kcov –coveralls-id=$TRAVIS_JOB_ID –exclude-pattern=/.cargo target/kcov target/debug/rbtc-*

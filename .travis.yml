@@ -35,10 +35,10 @@ before_script:
 # the main build
 script:
   - |
-      cargo build &&
-      cargo test &&
-      cargo bench &&
-      cargo doc
+      sudo cargo build &&
+      sudo cargo test &&
+      sudo cargo bench &&
+      sudo cargo doc
 
 after_success:
 # measure code coverage and upload to coveralls.io

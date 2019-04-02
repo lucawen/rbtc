@@ -99,7 +99,7 @@ mod tests {
 
     #[test]
     fn test_convert_error_wrong_to() {
-        match convert_btc(&1.2, &String::from("wrongvalue"), &String::from("USD")) {
+        match convert_btc(&1.2, &String::from("USD"), &String::from("wrongvalue")) {
             Ok(_) => assert!(false),
             Err(_) => assert!(true),
         }

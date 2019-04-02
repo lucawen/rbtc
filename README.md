@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.com/lucawen/rbtc.svg?branch=master)](https://travis-ci.com/lucawen/rbtc)
 [![Crates.io](https://img.shields.io/crates/v/rbtc.svg)](https://crates.io/crates/rbtc)
-[![Coverage Status](https://coveralls.io/repos/github/lucawen/rbtc/badge.svg?branch=master)](https://coveralls.io/github/lucawen/rbtc?branch=master)
 
 
 RBTC is cli to convert BTC to any currency and vice-versa.

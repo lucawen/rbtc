@@ -34,7 +34,7 @@ The documentation, for now, is the help return of tool:
 Get value of a btc value to a currency
 
 USAGE:
-    rbtc [FLAGS] [OPTIONS] <amount>
+    rbtc [FLAGS] [OPTIONS] [amount]
 
 FLAGS:
     -h, --help       Prints help information
@@ -47,7 +47,7 @@ OPTIONS:
     -t, --to <to>        Set the final currency to convert [default: USD]
 
 ARGS:
-    <amount>    Set amount to convert to a currency or from a currency
+    <amount>    Set amount to convert to a currency or from a currency [default: 1]
 ```
 
 

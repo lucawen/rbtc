@@ -16,6 +16,7 @@ const API_URL: &'static str = "https://apiv2.bitcoinaverage.com/convert/global";
 #[structopt(name = "rbtc", about = "Get value of a btc value to a currency")]
 struct Opt {
     /// Set amount to convert to a currency or from a currency
+    #[structopt(default_value = "1")]
     amount: f64,
     /// Set the initial currency of
     #[structopt(short = "f", long = "from", default_value = "BTC")]

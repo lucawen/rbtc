@@ -12,7 +12,7 @@ enum RbtcError {
     Reqwest(reqwest::Error),
 }
 
-const API_URL: &'static str = "https://apiv2.bitcoinaverage.com/convert/global";
+const API_URL: &str = "https://apiv2.bitcoinaverage.com/convert/global";
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "rbtc", about = "Get value of a btc value to a currency")]
@@ -41,7 +41,7 @@ struct BtcResponse {
     price: f64,
 }
 
-fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, RbtcError> {
+fn convert_btc(amount: f64, from: &str, to: &str) -> Result<BtcResponse, RbtcError> {
     use RbtcError::*;
     let client = reqwest::Client::new();
     let request =
@@ -60,7 +60,7 @@ fn convert_btc(amount: &f64, from: &String, to: &String) -> Result<BtcResponse, 
 fn main() {
     let opt = Opt::from_args();
 
-    let response = match convert_btc(&opt.amount, &opt.from, &opt.to) {
+    let response = match convert_btc(opt.amount, &opt.from, &opt.to) {
         Ok(value) => value,
         Err(e) => {
             println!("A error ocurred when try to get value from api");
@@ -84,7 +84,7 @@ mod tests {
 
     #[test]
     fn test_convert_sucess() {
-        match convert_btc(&1.2, &String::from("BTC"), &String::from("USD")) {
+        match convert_btc(&1.2, &str::from("BTC"), &str::from("USD")) {
             Ok(_) => assert!(true),
             Err(_) => assert!(false),
         }
@@ -92,7 +92,7 @@ mod tests {
 
     #[test]
     fn test_convert_error_wrong_from() {
-        match convert_btc(&1.2, &String::from("wrongvalue"), &String::from("USD")) {
+        match convert_btc(&1.2, &str::from("wrongvalue"), &str::from("USD")) {
             Ok(_) => assert!(false),
             Err(_) => assert!(true),
         }
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn test_convert_error_wrong_to() {
-        match convert_btc(&1.2, &String::from("USD"), &String::from("wrongvalue")) {
+        match convert_btc(&1.2, &str::from("USD"), &str::from("wrongvalue")) {
             Ok(_) => assert!(false),
             Err(_) => assert!(true),
         }

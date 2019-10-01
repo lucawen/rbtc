@@ -26,7 +26,7 @@ struct Opt {
     /// Set the final currency to convert
     #[structopt(short = "t", long = "to", default_value = "USD")]
     to: String,
-    /// Silent information abount currency result
+    /// Silent information about currency result
     #[structopt(short = "s", long = "silent")]
     silent: bool,
     /// Verbose errors
@@ -63,7 +63,7 @@ fn main() {
     let response = match convert_btc(opt.amount, &opt.from, &opt.to) {
         Ok(value) => value,
         Err(e) => {
-            println!("A error ocurred when try to get value from api");
+            println!("A error occurred when try to get value from api");
             if opt.verbose {
                 println!("Message: {} - Details: {:?}", e, e);
             }
@@ -83,7 +83,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_convert_sucess() {
+    fn test_convert_success() {
         match convert_btc(1.2, "BTC", "USD") {
             Ok(_) => assert!(true),
             Err(_) => assert!(false),

@@ -84,7 +84,7 @@ mod tests {
 
     #[test]
     fn test_convert_sucess() {
-        match convert_btc(&1.2, &str::from("BTC"), &str::from("USD")) {
+        match convert_btc(1.2, "BTC", "USD") {
             Ok(_) => assert!(true),
             Err(_) => assert!(false),
         }
@@ -92,7 +92,7 @@ mod tests {
 
     #[test]
     fn test_convert_error_wrong_from() {
-        match convert_btc(&1.2, &str::from("wrongvalue"), &str::from("USD")) {
+        match convert_btc(1.2, "wrongvalue", "USD") {
             Ok(_) => assert!(false),
             Err(_) => assert!(true),
         }
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn test_convert_error_wrong_to() {
-        match convert_btc(&1.2, &str::from("USD"), &str::from("wrongvalue")) {
+        match convert_btc(1.2, "USD", "wrongvalue") {
             Ok(_) => assert!(false),
             Err(_) => assert!(true),
         }
